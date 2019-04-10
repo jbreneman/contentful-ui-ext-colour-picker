@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <!-- Core extensions CSS from Contentful. -->
-  <link rel="stylesheet" href="//contentful.github.io/ui-extensions-sdk/cf-extension.css">
+  <link rel="stylesheet" href="//contentful.github.io/ui-extensions-sdk/cf-extensionsApi.css">
 
 </head>
 <body>
@@ -66,6 +66,17 @@
     draftTextEl.addEventListener('input', keyboardInputHandler);
     colourPickerEl.addEventListener('change', updateField);
 
+    var defaultColor = extensionsApi.parameters.instance.defaultColor;
+    document.querySelector('.default-value').appendChild(document.createTextNode(defaultColor));
+
+    if (extensionsApi.entry.getSys().version == 1 && extensionsApi.field.getValue() === undefined) {
+      extensionsApi.field.setValue(defaultColor);
+    }
+
+    function isInvalidColor(value) {
+      return value === undefined || value.match(/#([a-f0-9]{3}){1,2}\b/i) === null;
+    }
+
     // Check for published version
     if (publishedVersion) {
       // Load published value from CDA.
@@ -93,6 +104,12 @@
      */
     function keyboardInputHandler(event) {
       renderColour();
+      var value = draftTextEl.value;
+      if (typeof value !== 'string' || value === '') {
+        extensionsApi.field.removeValue();
+      } else {
+        extensionsApi.field.setValue(value);
+      }
     }
 
 
@@ -128,6 +145,7 @@
       if (val) {
         draftTextEl.value = val;
       }
+      extensionsApi.field.setInvalid(isInvalidColor(value));
     }
 
     /**

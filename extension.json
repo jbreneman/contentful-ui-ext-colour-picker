@@ -1,6 +1,28 @@
 {
-  "id": "colourpicker",
-  "name": "Colour picker",
+  "id": "colorpicker",
+  "name": "Color picker",
   "srcdoc": "index.html",
-  "fieldTypes": ["Symbol", "Text"]
+  "fieldTypes": ["Symbol", "Text"],
+  "parameters": {
+    "instance": [
+      {
+        "id": "defaultColor",
+        "name": "Default color",
+        "description": "Set which color is the default color",
+        "type": "Enum",
+        "options": [
+          {
+            "#000000": "Black"
+          },
+          {
+            "#FFFFFF": "White"
+          }
+        ],
+        "labels": {
+          "empty": "Choose a color"
+        },
+        "required": true
+      }
+    ]
+  }
 }
