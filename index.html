@@ -15,7 +15,7 @@
 </div>
 
 <!-- Contenful UI Extensions SDK API -->
-<script src="https://contentful.github.io/ui-extensions-sdk/cf-extension-api.js"></script>
+<script src="https://unpkg.com/contentful-ui-extensions-sdk@3"></script>
 
 <style>
 
@@ -47,6 +47,7 @@
 
     var entry = extensionsApi.entry;
     var field = extensionsApi.field;
+    var parameters = extensionsApi.parameters;
 
     // Currently published version of entry.
     var publishedVersion = extensionsApi.entry.getSys().publishedVersion;
@@ -66,11 +67,11 @@
     draftTextEl.addEventListener('input', keyboardInputHandler);
     colourPickerEl.addEventListener('change', updateField);
 
-    var defaultColor = extensionsApi.parameters.instance.defaultColor;
-    document.querySelector('.default-value').appendChild(document.createTextNode(defaultColor));
+    var defaultColor = parameters.instance.defaultColor;
 
-    if (extensionsApi.entry.getSys().version == 1 && extensionsApi.field.getValue() === undefined) {
-      extensionsApi.field.setValue(defaultColor);
+    if (field._value === undefined) {
+      field.setValue(defaultColor);
+      draftTextEl.value = defaultColor;
     }
 
     function isInvalidColor(value) {
@@ -145,7 +146,7 @@
       if (val) {
         draftTextEl.value = val;
       }
-      extensionsApi.field.setInvalid(isInvalidColor(value));
+      extensionsApi.field.setInvalid(isInvalidColor(val));
     }
 
     /**
