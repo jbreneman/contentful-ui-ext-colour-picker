@@ -16,6 +16,9 @@
           },
           {
             "#FFFFFF": "White"
+          },
+          {
+            "#F7F7F7": "Light Grey"
           }
         ],
         "labels": {
